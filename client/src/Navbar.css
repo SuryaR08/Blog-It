@@ -1,0 +1,51 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-logo a {
+    text-decoration: none; /* Remove underline */
+    color: #333333;
+    transition: color 0.3s ease;
+}
+
+.navbar-logo a:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+.navbar-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.navbar-links a,
+.navbar-links button {
+    text-decoration: none;
+    color: #333333;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-links a:hover,
+.navbar-links button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+    transform: translateY(-2px); /* Add depth effect on hover */
+}
+
+.navbar-links button {
+    background-color: #007bff;
+    color: #ffffff;
+}

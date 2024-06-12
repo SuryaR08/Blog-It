@@ -1,0 +1,135 @@
+.profile-container {
+    padding: 20px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-header h1 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.user-details-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.user-details-card h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.user-details-card p {
+    font-size: 18px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.property-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+.property-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 300px;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.property-image {
+    /* width: 100%; */
+    height: 200px; /* Adjust the height to your desired value */
+    object-fit: contain; /* Ensure the entire image fits inside the container */
+    border-radius: 10px 10px 0 0;
+}
+
+.property-details {
+    padding: 15px;
+}
+
+.property-details h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.property-details p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+
+.property-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.property-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.property-buttons button:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.property-buttons button.delete {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.property-buttons button.delete:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+    .user-details-card, .property-card {
+        max-width: 100%;
+    }
+
+    .profile-header h1 {
+        font-size: 28px;
+    }
+
+    .user-details-card h2 {
+        font-size: 24px;
+    }
+
+    .user-details-card p {
+        font-size: 16px;
+    }
+
+    .property-buttons button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}

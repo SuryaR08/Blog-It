@@ -1,0 +1,112 @@
+/* auth.css */
+/* body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: url('https://source.unsplash.com/random/1920x1080?cityscape') no-repeat center center fixed;
+    background-size: cover;
+} */
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 40px 60px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 20px;
+}
+
+.auth-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+.auth-card form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-card form > div {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.auth-card label {
+    font-weight: bold;
+    color: #070707;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #2e2c2c;
+    font-size: 16px;
+    transition: box-shadow 0.3s ease;
+}
+
+.auth-card input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.auth-card button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.auth-card button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+.auth-card .toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    color: #050505;
+}
+
+.auth-card .toggle-link {
+    color: #007bff;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: color 0.3s ease;
+}
+
+.auth-card .toggle-link:hover {
+    color: #0056b3;
+}
+
+@media (max-width: 600px) {
+    .auth-card {
+        width: 90%;
+        padding: 20px 30px;
+    }
+
+    .auth-card button {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
