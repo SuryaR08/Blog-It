@@ -3,7 +3,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
 const User = require('./user');
-const Property = require('./property');
+const blog = require('./blog');
 
 const Favorite = sequelize.define('Favorite', {
     id: {
@@ -19,11 +19,11 @@ const Favorite = sequelize.define('Favorite', {
             key: 'id',
         },
     },
-    propertyId: {
+    blogId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: Property,
+            model: blog,
             key: 'id',
         },
     },

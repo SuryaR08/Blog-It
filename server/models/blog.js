@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
 const User = require('./user');
 
-const Property = sequelize.define('Property', {
+const Blog = sequelize.define('Blog', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -14,14 +14,6 @@ const Property = sequelize.define('Property', {
     },
     description: {
         type: DataTypes.TEXT,
-        allowNull: false,
-    },
-    location: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    price: {
-        type: DataTypes.FLOAT,
         allowNull: false,
     },
     image: {
@@ -40,4 +32,4 @@ const Property = sequelize.define('Property', {
     timestamps: true,
 });
 
-module.exports = Property;
+module.exports = Blog;
