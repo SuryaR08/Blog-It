@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/', authMiddleware, addToFavorites);
 router.get('/', authMiddleware, getUserFavorites);
-router.delete('/:propertyId', authMiddleware, removeFromFavorites);
+router.delete('/:blogId', authMiddleware, removeFromFavorites);
 
 module.exports = router;

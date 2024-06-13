@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAllProperties, addToFavorites, getUserFavorites, removeFromFavorites } from '../services/propertyService';
+import { getAllBlogs, addToFavorites, getUserFavorites, removeFromFavorites } from '../services/blogService';
 import '../home.css';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const Home = () => {
-    const [properties, setProperties] = useState([]);
+    const [blogs, setBlogs] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredProperties, setFilteredProperties] = useState([]);
-    const [favoriteProperties, setFavoriteProperties] = useState([]);
+    const [filteredBlogs, setFilteredBlogs] = useState([]);
+    const [favoriteBlogs, setFavoriteBlogs] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchProperties = async () => {
+        const fetchBlogs = async () => {
             try {
-                const properties = await getAllProperties();
-                setProperties(properties);
-                setFilteredProperties(properties);
+                const blogs = await getAllBlogs();
+                setBlogs(blogs);
+                setFilteredBlogs(blogs);
             } catch (error) {
-                console.error('Error fetching properties:', error);
+                console.error('Error fetching blogs:', error);
             }
         };
 
@@ -30,28 +32,36 @@ const Home = () => {
 
             try {
                 const favoriteData = await getUserFavorites(token);
-                const favoritePropertyIds = favoriteData.map(fav => fav.propertyId);
-                setFavoriteProperties(favoritePropertyIds);
+                const favoriteBlogIds = favoriteData.map(fav => fav.blogId);
+                setFavoriteBlogs(favoriteBlogIds);
             } catch (error) {
                 console.error('Error fetching user favorites:', error);
             }
         };
 
-        fetchProperties();
+        fetchBlogs();
         fetchUserFavorites();
     }, []);
 
     const handleSearch = (e) => {
-        const term = e.target.value;
+        const term = e.target.value.toLowerCase();
+        console.log('Search term:', term);
         setSearchTerm(term);
-        const filtered = properties.filter(property =>
-            property.title.toLowerCase().includes(term.toLowerCase()) ||
-            property.location.toLowerCase().includes(term.toLowerCase())
-        );
-        setFilteredProperties(filtered);
+        console.log('Blogs:', blogs); // Check if blogs is defined and has data
+        const filtered = blogs.filter(blog => {
+            console.log('Blog:', blog); // Check each blog object
+            return (
+                (blog.title && blog.title.toLowerCase().includes(term)) ||
+                (blog.location && blog.location.toLowerCase().includes(term))
+            );
+        });
+        console.log('Filtered Blogs:', filtered); // Check filtered results
+        setFilteredBlogs(filtered);
     };
+    
+    
 
-    const handleAddToFavorites = async (propertyId) => {
+    const handleAddToFavorites = async (blogId) => {
         const token = sessionStorage.getItem('token');
         if (!token) {
             console.error('No token found');
@@ -59,14 +69,14 @@ const Home = () => {
         }
 
         try {
-            if (favoriteProperties.includes(propertyId)) {
-                await removeFromFavorites(propertyId, token);
-                setFavoriteProperties(favoriteProperties.filter(id => id !== propertyId));
-                console.log('Property removed from favorites');
+            if (favoriteBlogs.includes(blogId)) {
+                await removeFromFavorites(blogId, token);
+                setFavoriteBlogs(favoriteBlogs.filter(id => id !== blogId));
+                console.log('Blog removed from favorites');
             } else {
-                await addToFavorites(propertyId, token);
-                setFavoriteProperties([...favoriteProperties, propertyId]);
-                console.log('Property added to favorites');
+                await addToFavorites(blogId, token);
+                setFavoriteBlogs([...favoriteBlogs, blogId]);
+                console.log('Blog added to favorites');
             }
         } catch (error) {
             console.error('Error toggling favorite status:', error);
@@ -80,34 +90,43 @@ const Home = () => {
     return (
         <div className="home-container">
             <header className="home-header">
-                <h1>Available Properties</h1>
+            <Carousel autoPlay infiniteLoop showThumbs={false}>
+                    <div>
+                        <img src="https://via.placeholder.com/1500x500" alt="Slide 1" />
+                    </div>
+                    <div>
+                        <img src="https://via.placeholder.com/1500x500" alt="Slide 2" />
+                    </div>
+                    <div>
+                        <img src="https://via.placeholder.com/1500x500" alt="Slide 3" />
+                    </div>
+                </Carousel>Carousel
+                <h1>Blogs</h1>
                 <input
                     type="text"
-                    placeholder="Search by title or location..."
+                    placeholder="Search by title..."
                     value={searchTerm}
                     onChange={handleSearch}
                 />
                 {/* <button onClick={navigateToProfile}>Go to Profile</button> */}
             </header>
             <div className="property-list">
-                {filteredProperties.map(property => (
-                    <div key={property.id} className="property-card">
-                        <Link to={`/property/${property.id}`} className="property-card-link">
+                {filteredBlogs.map(blog => (
+                    <div key={blog.id} className="property-card">
+                        <Link to={`/blog/${blog.id}`} className="property-card-link">
                             <div>
-                                <img src={`http://localhost:5000/uploads/${property.image}`} alt="Property" className="property-image" />
+                                <img src={`http://localhost:5000/uploads/${blog.image}`} alt="Blog" className="property-image" />
                                 <div className="property-details">
-                                    <h2>{property.title}</h2>
-                                    <p>{property.description}</p>
-                                    <p><strong>Location:</strong> {property.location}</p>
-                                    <p><strong>Price:</strong> ${property.price}</p>
+                                    <h2>{blog.title}</h2>
+                                    <p>{blog.description}</p>
                                 </div>
                             </div>
                         </Link>
                         <div className="property-footer">
                             <button
-                                onClick={() => handleAddToFavorites(property.id)}
+                                onClick={() => handleAddToFavorites(blog.id)}
                             >
-                                {favoriteProperties.includes(property.id) ? 'Added' : 'Add to Favorites'}
+                                {favoriteBlogs.includes(blog.id) ? 'Added' : 'Add to Favorites'}
                             </button>
                         </div>
                     </div>

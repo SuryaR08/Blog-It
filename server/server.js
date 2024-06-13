@@ -6,7 +6,7 @@ const path = require('path');
 const { connectDB } = require('./config/db');
 const { initModels } = require('./models');
 const authRoutes = require('./routes/authRoutes');
-const propertyRoutes = require('./routes/propertyRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 const userRoutes = require('./routes/userRoutes');
 const favoriteRoutes = require('./routes/favouriteRoutes');
 
@@ -19,7 +19,7 @@ app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/auth', authRoutes);
-app.use('/properties', propertyRoutes);
+app.use('/blogs', blogRoutes);
 app.use('/users', userRoutes);
 app.use('/favorites', favoriteRoutes);
 

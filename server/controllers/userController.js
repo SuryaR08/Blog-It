@@ -1,13 +1,13 @@
-// controllers/userController.js
 
-const { User, Property } = require('../models');
+
+const { User, Blog } = require('../models');
 
 exports.getUserProfile = async (req, res) => {
-    const userId = req.userId; // Extracted from the token in the middleware
+    const userId = req.userId; 
     try {
         const user = await User.findByPk(userId, {
-            include: [Property],
-            attributes: ['id', 'username', 'email', 'phone'], // Make sure to include these attributes
+            include: [Blog],
+            attributes: ['id', 'username', 'email'], 
         });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });

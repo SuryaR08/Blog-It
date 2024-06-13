@@ -100,28 +100,8 @@ exports.getBlogById = async (req, res) => {
         res.status(200).json(blog);
     } catch (error) {
         console.error('Error fetching blog by id:', error);
-        res.status(500).json({ error: 'Error fetching property by id' });
+        res.status(500).json({ error: 'Error fetching blog by id' });
     }
 };
 
 
-exports.rentProperty = async (req, res) => {
-    const { propertyId } = req.params;
-    const { paymentMethod, amount } = req.body;
-    const userId = req.userId; // Extracted from the token in the middleware
-
-    try {
-        // Create a new entry in the RentedProperty table
-        const rentedProperty = await RentedProperty.create({
-            userId,
-            propertyId,
-            paymentMethod,
-            amount,
-        });
-
-        res.status(200).json({ message: 'Property rented successfully', rentedProperty });
-    } catch (error) {
-        console.error('Error renting property:', error);
-        res.status(500).json({ error: 'Error renting property' });
-    }
-};

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUserFavorites, removeFromFavorites } from '../services/propertyService';
+import { getUserFavorites, removeFromFavorites } from '../services/blogService';
 import '../profile.css';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
     const [favorites, setFavorites] = useState([]);
-    const [properties, setProperties] = useState([]);
+    const [blogs, setBlogs] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const Profile = () => {
             }
         };
 
-        const fetchProperties = async () => {
+        const fetchBlogs = async () => {
             const token = sessionStorage.getItem('token');
             if (!token) {
                 console.error('No token found');
@@ -45,7 +45,7 @@ const Profile = () => {
             }
 
             try {
-                const response = await fetch('http://localhost:5000/properties/user', {
+                const response = await fetch('http://localhost:5000/blogs/user', {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -54,10 +54,10 @@ const Profile = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    setProperties(data);
+                    setBlogs(data);
                 } else {
                     const errorData = await response.json();
-                    console.error('Error fetching properties:', errorData);
+                    console.error('Error fetching blogs:', errorData);
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -80,15 +80,15 @@ const Profile = () => {
         };
 
         fetchUserData();
-        fetchProperties();
+        fetchBlogs();
         fetchUserFavorites();
     }, []);
 
-    const handleEdit = (propertyId) => {
-        navigate(`/editproperty/${propertyId}`);
+    const handleEdit = (blogId) => {
+        navigate(`/editblog/${blogId}`);
     };
 
-    const handleDelete = async (propertyId) => {
+    const handleDelete = async (blogId) => {
         const token = sessionStorage.getItem('token');
         if (!token) {
             console.error('No token found');
@@ -96,7 +96,7 @@ const Profile = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/properties/${propertyId}`, {
+            const response = await fetch(`http://localhost:5000/blogs/${blogId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -104,17 +104,17 @@ const Profile = () => {
             });
 
             if (response.ok) {
-                setProperties(properties.filter(property => property.id !== propertyId));
+                setBlogs(blogs.filter(blog => blog.id !== blogId));
             } else {
                 const errorData = await response.json();
-                console.error('Error deleting property:', errorData);
+                console.error('Error deleting blog:', errorData);
             }
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
-    const handleRemoveFromFavorites = async (propertyId) => {
+    const handleRemoveFromFavorites = async (blogId) => {
         const token = sessionStorage.getItem('token');
         if (!token) {
             console.error('No token found');
@@ -122,8 +122,8 @@ const Profile = () => {
         }
 
         try {
-            await removeFromFavorites(propertyId, token);
-            setFavorites(favorites.filter(favorite => favorite.Property.id !== propertyId));
+            await removeFromFavorites(blogId, token);
+            setFavorites(favorites.filter(favorite => favorite.Blog.id !== blogId));
         } catch (error) {
             console.error('Error removing from favorites:', error);
         }
@@ -132,53 +132,48 @@ const Profile = () => {
     return (
         <div className="profile-container">
             <header className="profile-header">
-                <h1>My Properties</h1>
+                <h1>My Blogs</h1>
             </header>
             {user ? (
                 <div className="user-details-card">
                     <h2>{user.username}</h2>
                     <p>Email: {user.email}</p>
-                    <p>Phone: {user.phone}</p>
                 </div>
             ) : (
                 <p>Loading user details...</p>
             )}
-            {properties.length > 0 ? (
+            {blogs.length > 0 ? (
                 <div className="property-list">
-                    {properties.map((property) => (
-                        <div key={property.id} className="property-card">
+                    {blogs.map((blog) => (
+                        <div key={blog.id} className="property-card">
                             <div className="property-details">
-                                <h2>{property.title}</h2>
-                                <p>{property.description}</p>
-                                <p>{property.location}</p>
-                                <p>${property.price}</p>
-                                {property.image && <img src={`http://localhost:5000/uploads/${property.image}`} alt={property.title} className="property-image" />}
+                                <h2>{blog.title}</h2>
+                                <p>{blog.description}</p>
+                                {blog.image && <img src={`http://localhost:5000/uploads/${blog.image}`} alt={blog.title} className="property-image" />}
                             </div>
                             <div className="property-buttons">
-                                <button onClick={() => handleEdit(property.id)}>Edit</button>
-                                <button className="delete" onClick={() => handleDelete(property.id)}>Delete</button>
+                                <button onClick={() => handleEdit(blog.id)}>Edit</button>
+                                <button className="delete" onClick={() => handleDelete(blog.id)}>Delete</button>
                             </div>
                         </div>
                     ))}
                 </div>
             ) : (
-                <p>No properties found.</p>
+                <p>No blogs found.</p>
             )}
             {favorites.length > 0 && (
                 <div className="favorites-section">
-                    <h2>Favorite Properties</h2>
+                    <h2>Favorite Blogs</h2>
                     <div className="property-list">
                         {favorites.map((favorite) => (
                             <div key={favorite.id} className="property-card">
                                 <div className="property-details">
-                                    <h2>{favorite.Property.title}</h2>
-                                    <p>{favorite.Property.description}</p>
-                                    <p>{favorite.Property.location}</p>
-                                    <p>${favorite.Property.price}</p>
-                                    {favorite.Property.image && <img src={`http://localhost:5000/uploads/${favorite.Property.image}`} alt={favorite.Property.title} className="property-image" />}
+                                    <h2>{favorite.Blog.title}</h2>
+                                    <p>{favorite.Blog.description}</p>
+                                    {favorite.Blog.image && <img src={`http://localhost:5000/uploads/${favorite.Blog.image}`} alt={favorite.Blog.title} className="property-image" />}
                                 </div>
                                 <div className="property-buttons">
-                                    <button className="remove-favorite" onClick={() => handleRemoveFromFavorites(favorite.Property.id)}>Remove from Favorites</button>
+                                    <button className="remove-favorite" onClick={() => handleRemoveFromFavorites(favorite.Blog.id)}>Remove from Favorites</button>
                                 </div>
                             </div>
                         ))}

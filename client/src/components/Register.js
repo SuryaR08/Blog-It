@@ -7,7 +7,6 @@ const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -16,10 +15,8 @@ const Register = () => {
             await axios.post('http://localhost:5000/auth/register', {
                 username,
                 password,
-                email,
-                phoneNumber
+                email
             });
-            alert('Registration successful, please log in.');
             navigate('/login');
         } catch (error) {
             console.error('Error registering:', error.response?.data || error.message);
@@ -42,10 +39,6 @@ const Register = () => {
                     <div>
                         <label>Email:</label>
                         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    </div>
-                    <div>
-                        <label>Phone Number:</label>
-                        <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
                     </div>
                     <button type="submit">Register</button>
                 </form>
